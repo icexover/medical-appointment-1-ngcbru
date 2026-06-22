@@ -18,7 +18,7 @@ const quickActions = [
   { icon: '💊', name: '药品查询', path: '/medicine' },
   { icon: '🩻', name: '检查预约', path: '/exam' },
   { icon: '🚑', name: '急诊就医', path: '/emergency' },
-  { icon: '💳', name: '门诊缴费', path: '/payment' },
+  { icon: '💳', name: '门诊缴费', path: '/outpatient-payment' },
   { icon: '📑', name: '体检预约', path: '/checkup' },
   { icon: '📞', name: '在线客服', path: '/service' },
 ]
@@ -32,20 +32,23 @@ function goAppointment() {
 }
 
 function goQuickAction(path: string) {
-  if (path === '/hospital') {
-    router.push(path)
-  }
+  router.push(path)
 }
 
 onMounted(async () => {
   loading.value = true
-  const [deps, docs] = await Promise.all([
-    getDepartments(),
-    getRecommendDoctors(),
-  ])
-  departments.value = deps
-  recommendDoctors.value = docs
-  loading.value = false
+  try {
+    const [deps, docs] = await Promise.all([
+      getDepartments(),
+      getRecommendDoctors(),
+    ])
+    departments.value = deps
+    recommendDoctors.value = docs
+  } catch (error) {
+    console.error('首页数据加载失败:', error)
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 

@@ -102,6 +102,16 @@ export const useOrderStore = defineStore('order', () => {
     }
   }
 
+  function updateOrderPaid(id: string, transactionId: string, paymentMethod: 'wechat' | 'alipay' | 'unionpay') {
+    const order = orders.value.find((o) => o.id === id)
+    if (order) {
+      order.status = 'pending'
+      order.paymentMethod = paymentMethod
+      order.transactionId = transactionId
+      order.payTime = new Date().toLocaleString('zh-CN')
+    }
+  }
+
   function getOrdersByStatus(status?: OrderStatus | 'all') {
     if (!status || status === 'all') return orders.value
     return orders.value.filter((o) => o.status === status)
@@ -116,6 +126,7 @@ export const useOrderStore = defineStore('order', () => {
     getOrderById,
     addOrder,
     cancelOrder,
+    updateOrderPaid,
     getOrdersByStatus,
   }
 })

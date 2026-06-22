@@ -18,15 +18,56 @@ export function bookAppointment(
   date: string,
   timeSlot: TimeSlot,
   patientId: string,
-  symptom: string
+  symptom: string,
+  price: number
 ): Promise<{ orderId: string; price: number }> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         orderId: `ord-${Date.now()}`,
-        price: 100,
+        price: price,
       })
     }, 400)
+  })
+}
+
+export interface PaymentResult {
+  success: boolean
+  orderId: string
+  transactionId?: string
+  errorMsg?: string
+}
+
+export function processPayment(
+  orderId: string,
+  amount: number,
+  paymentMethod: 'wechat' | 'alipay' | 'unionpay'
+): Promise<PaymentResult> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const successRate = paymentMethod === 'unionpay' ? 0.7 : 0.9
+      const isSuccess = Math.random() < successRate
+
+      if (isSuccess) {
+        resolve({
+          success: true,
+          orderId,
+          transactionId: `TX${Date.now()}${Math.floor(Math.random() * 1000)}`,
+        })
+      } else {
+        const errors = [
+          '账户余额不足，请充值后重试',
+          '支付超时，请重新发起支付',
+          '网络异常，请检查网络连接',
+          '银行系统维护中，请稍后重试',
+        ]
+        resolve({
+          success: false,
+          orderId,
+          errorMsg: errors[Math.floor(Math.random() * errors.length)],
+        })
+      }
+    }, 2000 + Math.random() * 1000)
   })
 }
 

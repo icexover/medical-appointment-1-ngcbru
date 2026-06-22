@@ -67,6 +67,9 @@ export interface AppointmentOrder {
   status: OrderStatus
   symptom?: string
   createTime: string
+  paymentMethod?: 'wechat' | 'alipay' | 'unionpay'
+  transactionId?: string
+  payTime?: string
   medicalRecord?: {
     diagnosis: string
     prescription: string

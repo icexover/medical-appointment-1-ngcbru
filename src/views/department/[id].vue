@@ -32,13 +32,18 @@ const periodOptions = [
 
 async function loadData() {
   loading.value = true
-  const [dept, docList] = await Promise.all([
-    getDepartmentDetail(deptId.value),
-    getDoctors(deptId.value, titleFilter.value || undefined, periodFilter.value || undefined),
-  ])
-  department.value = dept || null
-  doctors.value = docList
-  loading.value = false
+  try {
+    const [dept, docList] = await Promise.all([
+      getDepartmentDetail(deptId.value),
+      getDoctors(deptId.value, titleFilter.value || undefined, periodFilter.value || undefined),
+    ])
+    department.value = dept || null
+    doctors.value = docList
+  } catch (error) {
+    console.error('科室数据加载失败:', error)
+  } finally {
+    loading.value = false
+  }
 }
 
 function setTitleFilter(value: string) {

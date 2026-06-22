@@ -31,6 +31,9 @@ async function handleSearch() {
         historyKeywords.value.pop()
       }
     }
+  } catch (error) {
+    console.error('搜索失败:', error)
+    results.value = []
   } finally {
     searching.value = false
   }

@@ -52,12 +52,14 @@ async function handleSubmit() {
   submitting.value = true
 
   try {
+    const doctorPrice = doctor.value.price || 0
     const result = await bookAppointment(
       doctor.value.id,
       selectedDate.value,
       selectedTimeSlot.value,
       selectedPatientId.value,
-      symptom.value
+      symptom.value,
+      doctorPrice
     )
 
     orderStore.addOrder({
@@ -83,6 +85,7 @@ async function handleSubmit() {
     })
 
     bookingStore.setSymptom(symptom.value)
+    bookingStore.setPendingOrderId(result.orderId)
 
     router.push('/booking/payment')
   } catch (error) {

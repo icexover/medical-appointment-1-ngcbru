@@ -95,6 +95,48 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/search/index.vue'),
     meta: { title: '搜索', showTabBar: false },
   },
+  {
+    path: '/reports',
+    name: 'Reports',
+    component: () => import('@/views/reports/index.vue'),
+    meta: { title: '报告查询', showTabBar: false },
+  },
+  {
+    path: '/medicine',
+    name: 'Medicine',
+    component: () => import('@/views/medicine/index.vue'),
+    meta: { title: '药品查询', showTabBar: false },
+  },
+  {
+    path: '/exam',
+    name: 'Exam',
+    component: () => import('@/views/exam/index.vue'),
+    meta: { title: '检查预约', showTabBar: false },
+  },
+  {
+    path: '/emergency',
+    name: 'Emergency',
+    component: () => import('@/views/emergency/index.vue'),
+    meta: { title: '急诊就医', showTabBar: false },
+  },
+  {
+    path: '/outpatient-payment',
+    name: 'OutpatientPayment',
+    component: () => import('@/views/outpatient-payment/index.vue'),
+    meta: { title: '门诊缴费', showTabBar: false },
+  },
+  {
+    path: '/checkup',
+    name: 'Checkup',
+    component: () => import('@/views/checkup/index.vue'),
+    meta: { title: '体检预约', showTabBar: false },
+  },
+  {
+    path: '/service',
+    name: 'Service',
+    component: () => import('@/views/service/index.vue'),
+    meta: { title: '在线客服', showTabBar: false },
+  },
 ]
 
 const router = createRouter({

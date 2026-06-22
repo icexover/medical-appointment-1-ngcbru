@@ -16,8 +16,13 @@ function goDepartment(id: string) {
 
 onMounted(async () => {
   loading.value = true
-  departments.value = await getDepartments()
-  loading.value = false
+  try {
+    departments.value = await getDepartments()
+  } catch (error) {
+    console.error('科室列表加载失败:', error)
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 

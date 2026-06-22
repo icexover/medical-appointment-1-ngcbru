@@ -71,19 +71,23 @@ function selectTimeSlot(slot: TimeSlot) {
 
 async function loadData() {
   loading.value = true
-  const [doc, scheds] = await Promise.all([
-    getDoctorDetail(doctorId.value),
-    getWeekSchedule(doctorId.value),
-  ])
-  doctor.value = doc || null
-  schedules.value = scheds
+  try {
+    const [doc, scheds] = await Promise.all([
+      getDoctorDetail(doctorId.value),
+      getWeekSchedule(doctorId.value),
+    ])
+    doctor.value = doc || null
+    schedules.value = scheds
 
-  const firstAvailable = scheds.find((s) => s.status === 'available')
-  if (firstAvailable) {
-    selectedDate.value = firstAvailable.date
+    const firstAvailable = scheds.find((s) => s.status === 'available')
+    if (firstAvailable) {
+      selectedDate.value = firstAvailable.date
+    }
+  } catch (error) {
+    console.error('医生详情加载失败:', error)
+  } finally {
+    loading.value = false
   }
-
-  loading.value = false
 }
 
 onMounted(() => {

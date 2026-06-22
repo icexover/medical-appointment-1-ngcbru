@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import NavBar from '@/components/NavBar.vue'
 import { useOrderStore } from '@/stores/order'
+import { cancelAppointment } from '@/api/appointment'
 import type { OrderStatus } from '@/types'
 
 const route = useRoute()
@@ -41,6 +42,13 @@ async function handleCancel() {
         cancelButtonText: '再想想',
       }
     )
+
+    try {
+      await cancelAppointment(orderId.value)
+    } catch (err) {
+      console.error('取消预约 API 调用失败:', err)
+    }
+
     orderStore.cancelOrder(orderId.value)
     ElMessage.success('预约已取消')
   } catch {
